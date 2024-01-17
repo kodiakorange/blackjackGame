@@ -1,4 +1,4 @@
-let handSum;
+let playerSum;
 let dealerSum = 0;
 let currentPot = 0;
 let bankroll = 100;
@@ -31,27 +31,27 @@ function buildCardArray() {
 
 function checkScore() {
 	if (dealerSum != 0) {
-		if (handSum === 21 && dealerSum != 21) {
+		if (playerSum === 21 && dealerSum != 21) {
 			resultDisplay.textContent = "Blackjack! You Win!";
 			bankroll += currentPot;
 			bankrollDisplay.textContent = "$ " + bankroll + " in hand";
 			currentPot = 0;
 			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
-		} else if (handSum > 21 && dealerSum <= 21) {
+		} else if (playerSum > 21 && dealerSum <= 21) {
 			resultDisplay.textContent =
 				"You fool! You've busted and now you lose! Haha";
 			currentPot = 0;
 			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
 		} else if (
-			(handSum > 21 && dealerSum > 21) ||
-			(dealerSum == 21 && handSum == 21)
+			(playerSum > 21 && dealerSum > 21) ||
+			(dealerSum == 21 && playerSum == 21)
 		) {
 			resultDisplay.textContent = "It's a push.";
 			bankroll += 0.5 * currentPot;
 			bankrollDisplay.textContent = "$ " + bankroll + " in hand";
 			currentPot = 0;
 			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
-		} else if (handSum <= dealerSum && dealerSum <= 21) {
+		} else if (playerSum <= dealerSum && dealerSum <= 21) {
 			resultDisplay.textContent = "Hit to draw another..";
 		} else {
 			resultDisplay.textContent = "You beat the dealer! You win!";
@@ -65,7 +65,6 @@ function checkScore() {
 }
 
 function dealHand() {
-	buildCardArray();
 	dealerSumDisplay.textContent = "The dealer's hand will appear here";
 	if (bankroll > 0) {
 		dealerSum = 0;
@@ -73,11 +72,14 @@ function dealHand() {
 		currentPot += 20;
 		updateCounts();
 
-		let firstCard = cardsArray[Math.floor(Math.random(0, 52))];
-		let secondCard = cardsArray[Math.floor(Math.random(0, 52))];
-		handSum = firstCard.value + secondCard.value;
+		let firstCard =
+			cardsArray[Math.floor(Math.random() * cardsArray.length)];
+		let secondCard =
+			cardsArray[Math.floor(Math.random() * cardsArray.length)];
+		playerSum = firstCard.value + secondCard.value;
 
-		"Your total is " + handSum;
+		document.querySelector("#playerHand").textContent =
+			"Your total is " + playerSum;
 		let firstCardImg = document.querySelector("#cardImg1");
 		let secondCardImg = document.querySelector("#cardImg2");
 		firstCardImg.src = firstCard.imgSrc;
@@ -101,20 +103,20 @@ function dealerDraw() {
 		let secondDealerCardImg = document.querySelector("#dealerCardImg2");
 		firstDealerCardImg.src = firstDealerCard.imgSrc;
 		secondDealerCardImg.src = secondDealerCard.imgSrc;
-	} else {
-		while (dealerSum < 17) {
-			dealerSum += Math.floor(10 * Math.random() + 2);
-			dealerSumDisplay.textContent = "Dealer's total is " + dealerSum;
-			checkScore();
-		}
+	} else if (dealerSum < 17 || playerSum > dealerSum) {
+		let newDealerCard =
+			cardsArray[Math.floor(Math.random() * cardsArray.length)];
+		dealerSum += newDealerCard.value;
+		dealerSumDisplay.textContent = "Dealer's total is " + dealerSum;
+		checkScore();
 	}
 }
 
 function drawCard() {
 	let newCard = Math.floor(10 * Math.random() + 2);
-	handSum = handSum + newCard;
+	playerSum = playerSum + newCard;
 	cardsDisplay.textContent =
-		"You drew a " + newCard + ". Your new total is " + handSum;
+		"You drew a " + newCard + ". Your new total is " + playerSum;
 	checkScore();
 }
 
@@ -143,6 +145,7 @@ function reset() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+	buildCardArray();
 	document.querySelector("#dealButton").addEventListener("click", dealHand);
 	document.querySelector("#hitButton").addEventListener("click", drawCard);
 	document.querySelector("#betButton").addEventListener("click", betMoney);
