@@ -125,22 +125,28 @@ function dealerDraw() {
 		firstDealerCardImg.src = firstDealerCard.imgSrc;
 		secondDealerCardImg.src = secondDealerCard.imgSrc;
 	} else if (dealerSum < 21) {
-		let newDealerCard =
-			cardsArray[Math.floor(Math.random() * cardsArray.length)];
-		dealerSum = dealerSum + newDealerCard.value;
-		dealerSumDisplay.textContent = "Dealer's total is " + dealerSum;
-	}
-	checkScore();
-}
-
-function drawCard() {
-	if (playerSum < 21 && dealerSum != 0) {
 		let newCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
-		playerSum = playerSum + newCard.value;
 		let newCardImg = document.createElement("img");
 		newCardImg.src = newCard.imgSrc;
 		newCardImg.alt = "new card";
 		newCardImg.className = "newCard";
+
+		document.getElementById("dealerCardContainer").appendChild(newCardImg);
+		dealerSum = dealerSum + newCard.value;
+		dealerSumDisplay.textContent = "Dealer's total is " + dealerSum;
+	}
+	checkScore();
+}
+function generateCard() {}
+
+function drawCard() {
+	if (playerSum < 21 && dealerSum != 0) {
+		let newCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
+		let newCardImg = document.createElement("img");
+		newCardImg.src = newCard.imgSrc;
+		newCardImg.alt = "new card";
+		newCardImg.className = "newCard";
+		playerSum = playerSum + newCard.value;
 		document.getElementById("playerCardContainer").appendChild(newCardImg);
 		cardsDisplay.textContent = "Your new total is " + playerSum;
 	}
