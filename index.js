@@ -66,6 +66,7 @@ function checkScore() {
 
 function dealHand() {
 	dealerSumDisplay.textContent = "The dealer's hand will appear here";
+	currentPot = 0;
 	if (bankroll > 0) {
 		dealerSum = 0;
 		bankroll -= 10;
