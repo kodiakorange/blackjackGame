@@ -1,0 +1,40 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: lightgreen;
+    min-height: 30vh;
+    max-height: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+img {
+    height: 30%;
+    width: 40%;
+    display:
+}
+
+button {
+    max-width: max-content;
+    padding: .5rem;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+}
+
+button:hover {
+    background-color: lightgray;
+}
+
+button:active {
+    background-color: darkgray;
+}
+
+h1,
+h2,
+h3 {
+    border: .3rem solid black;
+    padding: .5rem;
+
+}
