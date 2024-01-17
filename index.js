@@ -15,7 +15,7 @@ function buildCardArray() {
 		let value;
 		if (i % 13 === 10) {
 			value = 11; // Ace
-		} else if (i % 13 >= 11) {
+		} else if (i % 13 >= 11 || i % 13 === 0) {
 			value = 10; // Face cards (Jack, Queen, King)
 		} else {
 			value = (i % 13) + 1;
