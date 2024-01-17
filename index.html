@@ -9,24 +9,31 @@
 	<body>
 		<div id="container">
 			<h1 id="mainDisplay">Blackjack Time!</h1>
-
+			<h2 id="playerHand">Your hand will appear here</h2>
 			<div id="playerCardContainer">
-				<h2 id="playerHand">Your hand will appear here</h2>
-				<img id="cardImg1" alt="card 1" /><img
+				<img id="cardImg1" alt="card 1" class="cardImg" /><img
 					id="cardImg2"
+					class="cardImg"
 					alt="card 2" />
 			</div>
-
+			<h2 id="dealerHand">The Dealer's hand will appear here</h2>
 			<div id="dealerCardContainer">
-				<h2 id="dealerHand">The Dealer's hand will appear here</h2>
-				<img id="dealerCardImg1" alt="dealer card 1" src="" />
-				<img id="dealerCardImg2" alt="dealer card 2" src="" />
+				<img
+					id="dealerCardImg1"
+					class="cardImg"
+					alt="dealer card 1"
+					src="" />
+				<img
+					id="dealerCardImg2"
+					class="cardImg"
+					alt="dealer card 2"
+					src="" />
 			</div>
 			<h2 id="currentPot">The pot will display here.</h2>
 			<button id="dealButton">Deal a new game</button>
 			<button id="hitButton">Hit</button>
 			<button id="betButton">Bet $10</button>
-			<button id="readyButton">Stay</button>
+			<button id="stayButton">Stay</button>
 			<h3 id="bankrollDisplay">$200 in hand</h3>
 			<button id="resetButton">Buy back to $200</button>
 		</div>

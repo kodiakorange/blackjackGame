@@ -30,16 +30,28 @@ function buildCardArray() {
 }
 
 function checkScore() {
-	if (dealerSum != 0) {
+	if (dealerSum > 0) {
 		if (playerSum === 21 && dealerSum != 21) {
 			resultDisplay.textContent = "Blackjack! You Win!";
 			bankroll += currentPot;
 			bankrollDisplay.textContent = "$ " + bankroll + " in hand";
 			currentPot = 0;
 			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
+			playerSum <= 21 && dealerSum > 21;
 		} else if (playerSum > 21 && dealerSum <= 21) {
 			resultDisplay.textContent =
 				"You fool! You've busted and now you lose! Haha";
+			currentPot = 0;
+			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
+		} else if (playerSum > dealerSum && dealerSum < 21) {
+			resultDisplay.textContent = "waiting for dealer..";
+		} else if (
+			(playerSum <= 21 && dealerSum > 21) ||
+			(playerSum > dealerSum && dealerSum >= 17 && playerSum <= 21)
+		) {
+			resultDisplay.textContent = "You beat the dealer! You win!";
+			bankroll += currentPot;
+			bankrollDisplay.textContent = "$ " + bankroll + " in hand";
 			currentPot = 0;
 			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
 		} else if (
@@ -53,20 +65,28 @@ function checkScore() {
 			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
 		} else if (playerSum <= dealerSum && dealerSum <= 21) {
 			resultDisplay.textContent = "Hit to draw another..";
-		} else {
-			resultDisplay.textContent = "You beat the dealer! You win!";
-			bankroll += currentPot;
-			bankrollDisplay.textContent = "$ " + bankroll + " in hand";
-			currentPot = 0;
-			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
 		}
-		pocketWatch();
 	}
 }
 
+function clearCards() {
+	playerSum = 0;
+	dealerSum = 0;
+	let oldCards = document.getElementsByClassName("cardImg");
+	for (let i = 0; i < oldCards.length; i++) {
+		oldCards[i].src = "";
+	}
+	let extraCards = document.getElementsByClassName("newCard");
+	for (let i = 0; i < extraCards.length; i++) {
+		extraCards[i].remove();
+	}
+}
 function dealHand() {
+	clearCards();
+	resultDisplay.textContent = "New Hand!";
 	dealerSumDisplay.textContent = "The dealer's hand will appear here";
 	currentPot = 0;
+
 	if (bankroll > 0) {
 		dealerSum = 0;
 		bankroll -= 10;
@@ -104,29 +124,35 @@ function dealerDraw() {
 		let secondDealerCardImg = document.querySelector("#dealerCardImg2");
 		firstDealerCardImg.src = firstDealerCard.imgSrc;
 		secondDealerCardImg.src = secondDealerCard.imgSrc;
-	} else if (dealerSum < 17 || playerSum > dealerSum) {
+	} else if (dealerSum < 21) {
 		let newDealerCard =
 			cardsArray[Math.floor(Math.random() * cardsArray.length)];
-		dealerSum += newDealerCard.value;
+		dealerSum = dealerSum + newDealerCard.value;
 		dealerSumDisplay.textContent = "Dealer's total is " + dealerSum;
-		checkScore();
 	}
+	checkScore();
 }
 
 function drawCard() {
-	let newCard = Math.floor(10 * Math.random() + 2);
-	playerSum = playerSum + newCard;
-	cardsDisplay.textContent =
-		"You drew a " + newCard + ". Your new total is " + playerSum;
+	if (playerSum < 21 && dealerSum != 0) {
+		let newCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
+		playerSum = playerSum + newCard.value;
+		let newCardImg = document.createElement("img");
+		newCardImg.src = newCard.imgSrc;
+		newCardImg.alt = "new card";
+		newCardImg.className = "newCard";
+		document.getElementById("playerCardContainer").appendChild(newCardImg);
+		cardsDisplay.textContent = "Your new total is " + playerSum;
+	}
 	checkScore();
 }
 
 function pocketWatch() {
 	if (bankroll <= 0) {
-		resultDisplay.textContent = "You're broke!";
+		resultDisplay.innerHTML = "You're broke!";
 	}
 }
-function betMoney() {
+function betTen() {
 	if (bankroll > 0) {
 		bankroll -= 10;
 		currentPot += 20;
@@ -149,9 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	buildCardArray();
 	document.querySelector("#dealButton").addEventListener("click", dealHand);
 	document.querySelector("#hitButton").addEventListener("click", drawCard);
-	document.querySelector("#betButton").addEventListener("click", betMoney);
+	document.querySelector("#betButton").addEventListener("click", betTen);
 	document.querySelector("#resetButton").addEventListener("click", reset);
-	document
-		.querySelector("#readyButton")
-		.addEventListener("click", dealerDraw);
-}); //[array of 52 cards] random number between 0-51 math.floor selects a card, each card has a value property assigned (0-11), set up a div to display each card by selecting indexof[cardsArray] and displaying the image file.
+	document.querySelector("#stayButton").addEventListener("click", dealerDraw);
+});
