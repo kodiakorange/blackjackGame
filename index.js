@@ -72,14 +72,17 @@ function checkScore() {
 function clearCards() {
 	playerSum = 0;
 	dealerSum = 0;
-	let oldCards = document.getElementsByClassName("cardImg");
-	for (let i = 0; i < oldCards.length; i++) {
-		oldCards[i].src = "";
-	}
-	let extraCards = document.getElementsByClassName("newCard");
-	for (let i = 0; i < extraCards.length; i++) {
-		extraCards[i].remove();
-	}
+	// Clear existing cards
+	let oldCards = document.querySelectorAll("img");
+	oldCards.forEach(function (card) {
+		card.src = "";
+	});
+
+	// Remove extra cards
+	let extraCards = document.querySelectorAll(".newCard");
+	extraCards.forEach(function (card) {
+		card.remove();
+	});
 }
 function dealHand() {
 	clearCards();
