@@ -1,11 +1,11 @@
-#container {
+#mainContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     background-color: lightgreen;
     min-height: 30vh;
-    max-height: 100%;
+    max-height: 100vh;
     max-width: 400px;
     margin: 0 auto;
 }
@@ -34,7 +34,8 @@ button:active {
 h1,
 h2,
 h3 {
-    border: .3rem solid black;
-    padding: .5rem;
+    border: .2rem solid black;
+    padding: 1rem;
+    border-radius: 1rem;
 
 }
