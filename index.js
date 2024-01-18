@@ -1,4 +1,4 @@
-let playerSum;
+let playerSum = 0;
 let dealerSum = 0;
 let currentPot = 0;
 let bankroll = 200;
@@ -39,8 +39,7 @@ function checkScore() {
 			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
 			playerSum <= 21 && dealerSum > 21;
 		} else if (playerSum > 21 && dealerSum <= 21) {
-			resultDisplay.textContent =
-				"You fool! You've busted and now you lose! Haha";
+			resultDisplay.textContent = "You fool! You've busted and now you lose! Haha";
 			currentPot = 0;
 			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
 		} else if (playerSum > dealerSum && dealerSum < 21) {
@@ -54,10 +53,7 @@ function checkScore() {
 			bankrollDisplay.textContent = "$ " + bankroll + " in hand";
 			currentPot = 0;
 			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
-		} else if (
-			(playerSum > 21 && dealerSum > 21) ||
-			(dealerSum == 21 && playerSum == 21)
-		) {
+		} else if ((playerSum > 21 && dealerSum > 21) || (dealerSum == 21 && playerSum == 21)) {
 			resultDisplay.textContent = "It's a push.";
 			bankroll += 0.5 * currentPot;
 			bankrollDisplay.textContent = "$ " + bankroll + " in hand";
@@ -72,13 +68,6 @@ function checkScore() {
 function clearCards() {
 	playerSum = 0;
 	dealerSum = 0;
-	// Clear existing cards
-	let oldCards = document.querySelectorAll("img");
-	oldCards.forEach(function (card) {
-		card.src = "";
-	});
-
-	// Remove extra cards
 	let extraCards = document.querySelectorAll(".newCard");
 	extraCards.forEach(function (card) {
 		card.remove();
@@ -95,64 +84,34 @@ function dealHand() {
 		bankroll -= 10;
 		currentPot += 20;
 		updateCounts();
-
-		let firstCard =
-			cardsArray[Math.floor(Math.random() * cardsArray.length)];
-		let secondCard =
-			cardsArray[Math.floor(Math.random() * cardsArray.length)];
-		playerSum = firstCard.value + secondCard.value;
-
-		document.querySelector("#playerHand").textContent =
-			"Your total is " + playerSum;
-		let firstCardImg = document.querySelector("#cardImg1");
-		let secondCardImg = document.querySelector("#cardImg2");
-		firstCardImg.src = firstCard.imgSrc;
-		secondCardImg.src = secondCard.imgSrc;
+		newPlayerCard();
 		checkScore();
 	} else {
 		pocketWatch();
 	}
 }
 
-function dealerDraw() {
-	if (dealerSum === 0) {
-		let firstDealerCard =
-			cardsArray[Math.floor(Math.random() * cardsArray.length)];
-		let secondDealerCard =
-			cardsArray[Math.floor(Math.random() * cardsArray.length)];
-		dealerSum = firstDealerCard.value + secondDealerCard.value;
-
-		dealerSumDisplay.textContent = "Dealer total is " + dealerSum;
-		let firstDealerCardImg = document.querySelector("#dealerCardImg1");
-		let secondDealerCardImg = document.querySelector("#dealerCardImg2");
-		firstDealerCardImg.src = firstDealerCard.imgSrc;
-		secondDealerCardImg.src = secondDealerCard.imgSrc;
-	} else if (dealerSum < 21) {
-		let newCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
-		let newCardImg = document.createElement("img");
-		newCardImg.src = newCard.imgSrc;
-		newCardImg.alt = "new card";
-		newCardImg.className = "newCard";
-
-		document.getElementById("dealerCardContainer").appendChild(newCardImg);
-		dealerSum = dealerSum + newCard.value;
-		dealerSumDisplay.textContent = "Dealer's total is " + dealerSum;
-	}
+function newPlayerCard() {
+	let newCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
+	let newCardImg = document.createElement("img");
+	newCardImg.src = newCard.imgSrc;
+	newCardImg.alt = "new card";
+	newCardImg.className = "newCard";
+	playerSum = playerSum + newCard.value;
+	document.getElementById("playerCardContainer").appendChild(newCardImg);
+	cardsDisplay.textContent = "Your total is " + playerSum;
 	checkScore();
 }
-function generateCard() {}
 
-function drawCard() {
-	if (playerSum < 21 && dealerSum != 0) {
-		let newCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
-		let newCardImg = document.createElement("img");
-		newCardImg.src = newCard.imgSrc;
-		newCardImg.alt = "new card";
-		newCardImg.className = "newCard";
-		playerSum = playerSum + newCard.value;
-		document.getElementById("playerCardContainer").appendChild(newCardImg);
-		cardsDisplay.textContent = "Your new total is " + playerSum;
-	}
+function newDealerCard() {
+	let newDealerCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
+	let newDealerCardImg = document.createElement("img");
+	newDealerCardImg.src = newDealerCard.imgSrc;
+	newDealerCardImg.alt = "new dealer card";
+	newDealerCardImg.className = "newCard";
+	dealerSum = dealerSum + newDealerCard.value;
+	document.getElementById("dealerCardContainer").appendChild(newDealerCardImg);
+	dealerSumDisplay.textContent = "Dealer total is " + dealerSum;
 	checkScore();
 }
 
@@ -183,8 +142,8 @@ function reset() {
 document.addEventListener("DOMContentLoaded", function () {
 	buildCardArray();
 	document.querySelector("#dealButton").addEventListener("click", dealHand);
-	document.querySelector("#hitButton").addEventListener("click", drawCard);
+	document.querySelector("#hitButton").addEventListener("click", newPlayerCard);
 	document.querySelector("#betButton").addEventListener("click", betTen);
 	document.querySelector("#resetButton").addEventListener("click", reset);
-	document.querySelector("#stayButton").addEventListener("click", dealerDraw);
+	document.querySelector("#dealerDrawButton").addEventListener("click", newDealerCard);
 });
