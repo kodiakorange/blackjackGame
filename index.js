@@ -3,6 +3,7 @@ let dealerSum = 0;
 let currentPot = 0;
 let bankroll = 200;
 let cardsArray = [];
+let currentBet;
 
 const dealerSumDisplay = document.querySelector("#dealerHand");
 const resultDisplay = document.querySelector("#mainDisplay");
