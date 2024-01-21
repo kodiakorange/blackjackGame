@@ -1,5 +1,6 @@
 html,
 body {
+
     margin: 0;
 }
 
@@ -8,6 +9,9 @@ body {
 }
 
 #background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: darkgreen;
     min-width: 100vw;
     min-height: 100vh;
