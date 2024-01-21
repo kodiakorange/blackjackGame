@@ -86,6 +86,8 @@ function dealHand() {
 		currentPot += 20;
 		updateCounts();
 		newPlayerCard();
+		newDealerCard();
+		newDealerCard();
 		checkScore();
 	} else {
 		pocketWatch();
@@ -93,15 +95,17 @@ function dealHand() {
 }
 
 function newPlayerCard() {
-	let newCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
-	let newCardImg = document.createElement("img");
-	newCardImg.src = newCard.imgSrc;
-	newCardImg.alt = "new card";
-	newCardImg.className = "newCard";
-	playerSum = playerSum + newCard.value;
-	document.getElementById("playerCardContainer").appendChild(newCardImg);
-	cardsDisplay.textContent = "Your total is " + playerSum;
-	checkScore();
+	if (playerSum < 21) {
+		let newCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
+		let newCardImg = document.createElement("img");
+		newCardImg.src = newCard.imgSrc;
+		newCardImg.alt = "new card";
+		newCardImg.className = "newCard";
+		playerSum = playerSum + newCard.value;
+		document.getElementById("playerCardContainer").appendChild(newCardImg);
+		cardsDisplay.textContent = "Your total is " + playerSum;
+		checkScore();
+	}
 }
 
 function newDealerCard() {
