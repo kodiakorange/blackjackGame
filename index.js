@@ -33,7 +33,7 @@ function buildCardArray() {
 function checkScore() {
 	if (dealerSum > 0) {
 		if (playerSum === 21 && dealerSum != 21) {
-			resultDisplay.textContent = "Blackjack! You Win!";
+			resultDisplay.textContent = "Blackjack! You Win $" + currentPot;
 			bankroll += currentPot;
 			bankrollDisplay.textContent = "$ " + bankroll + " in hand";
 			currentPot = 0;
@@ -49,7 +49,7 @@ function checkScore() {
 			(playerSum <= 21 && dealerSum > 21) ||
 			(playerSum > dealerSum && dealerSum >= 17 && playerSum <= 21)
 		) {
-			resultDisplay.textContent = "You beat the dealer! You win!";
+			resultDisplay.textContent = "You beat the dealer! You win $" + currentPot;
 			bankroll += currentPot;
 			bankrollDisplay.textContent = "$ " + bankroll + " in hand";
 			currentPot = 0;
@@ -109,15 +109,17 @@ function newPlayerCard() {
 }
 
 function newDealerCard() {
-	let newDealerCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
-	let newDealerCardImg = document.createElement("img");
-	newDealerCardImg.src = newDealerCard.imgSrc;
-	newDealerCardImg.alt = "new dealer card";
-	newDealerCardImg.className = "newCard";
-	dealerSum = dealerSum + newDealerCard.value;
-	document.getElementById("dealerCardContainer").appendChild(newDealerCardImg);
-	dealerSumDisplay.textContent = "Dealer total is " + dealerSum;
-	checkScore();
+	{
+		let newDealerCard = cardsArray[Math.floor(Math.random() * cardsArray.length)];
+		let newDealerCardImg = document.createElement("img");
+		newDealerCardImg.src = newDealerCard.imgSrc;
+		newDealerCardImg.alt = "new dealer card";
+		newDealerCardImg.className = "newCard";
+		dealerSum = dealerSum + newDealerCard.value;
+		document.getElementById("dealerCardContainer").appendChild(newDealerCardImg);
+		dealerSumDisplay.textContent = "Dealer total is " + dealerSum;
+		checkScore();
+	}
 }
 
 function pocketWatch() {
