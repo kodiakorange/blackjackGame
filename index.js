@@ -4,6 +4,7 @@ let currentPot = 0;
 let bankroll = 200;
 let cardsArray = [];
 let currentBet;
+// let isHandOver = false; maybe set up some boolean states to allow drawing/betting etc, rather than if else logic chains. etc isHandOver playerIsAlive (<=22) dealerIsAlive, isBroke,
 
 const dealerSumDisplay = document.querySelector("#dealerHand");
 const resultDisplay = document.querySelector("#mainDisplay");
@@ -38,7 +39,6 @@ function checkScore() {
 			bankrollDisplay.textContent = "$ " + bankroll + " in hand";
 			currentPot = 0;
 			currentPotDisplay.textContent = "$" + currentPot + " in the pot";
-			playerSum <= 21 && dealerSum > 21;
 		} else if (playerSum > 21 && dealerSum <= 21) {
 			resultDisplay.textContent = "You fool! You've busted and now you lose! Haha";
 			currentPot = 0;
